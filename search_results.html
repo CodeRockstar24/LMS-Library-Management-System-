@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-blue-50 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-blue-900">Search Results</h1>
+
+    {% if message %}
+      <p class="mb-4 text-blue-700">{{ message }}</p>
+    {% endif %}
+
+    {% if books %}
+      <table class="table-auto w-full bg-white shadow rounded">
+          <thead class="bg-blue-100 text-blue-900">
+              <tr>
+                  <th class="px-4 py-2">ID</th>
+                  <th class="px-4 py-2">Title</th>
+                  <th class="px-4 py-2">Author</th>
+                  <th class="px-4 py-2">Genre</th>
+                  <th class="px-4 py-2">Available</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for book in books %}
+              <tr class="hover:bg-blue-50">
+                  <td class="border px-4 py-2">{{ book.book_id }}</td>
+                  <td class="border px-4 py-2">{{ book.title }}</td>
+                  <td class="border px-4 py-2">{{ book.author }}</td>
+                  <td class="border px-4 py-2">{{ book.genre }}</td>
+                  <td class="border px-4 py-2">{{ 'Yes' if book.available else 'No' }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="mt-6 inline-block text-blue-600 hover:underline">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-3xl font-bold mb-6 text-blue-900">Student Dashboard</h1>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-blue-800 mb-2">Profile Information</h2>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold text-blue-800 mb-4">Current Borrowings & Fines</h2>
+      {% if borrowings %}
+        <table class="w-full table-auto border-collapse border border-blue-200">
+          <thead>
+            <tr class="bg-blue-100 text-blue-800">
+              <th class="border border-blue-300 px-4 py-2">Title</th>
+              <th class="border border-blue-300 px-4 py-2">Borrow Date</th>
+              <th class="border border-blue-300 px-4 py-2">Return Date</th>
+              <th class="border border-blue-300 px-4 py-2">Days Overdue</th>
+              <th class="border border-blue-300 px-4 py-2">Fine ($1/day)</th>
+              <th class="border border-blue-300 px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for br in borrowings %}
+            <tr class="text-blue-900">
+              <td class="border border-blue-300 px-4 py-2">{{ br.title }}</td>
+              <td class="border border-blue-300 px-4 py-2">{{ br.borrow_date }}</td>
+              <td class="border border-blue-300 px-4 py-2">{{ br.return_date if br.return_date else 'Not returned' }}</td>
+              <td class="border border-blue-300 px-4 py-2">{{ br.days_overdue if br.days_overdue > 0 else 0 }}</td>
+              <td class="border border-blue-300 px-4 py-2">${{ br.fine }}</td>
+              <td class="border border-blue-300 px-4 py-2">
+                {% if br.fine > 0 %}
+                <form action="{{ url_for('pay_fine', record_id=br.record_id) }}" method="POST">
+                  <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Pay Fine</button>
+                </form>
+                {% else %}
+                <span class="text-gray-500">No Fine</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-blue-700">You have no current borrowings or fines.</p>
+      {% endif %}
+    </section>
+
+    <a href="{{ url_for('index') }}" class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Back to Catalog</a>
+  </div>
+</body>
+</html>

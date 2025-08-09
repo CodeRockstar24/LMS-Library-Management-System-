@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 p-6">
+    <h2 class="text-2xl font-semibold mb-6 text-blue-900">Add New Book</h2>
+    
+    <form method="POST" class="bg-white p-6 rounded shadow max-w-md">
+        <label class="block mb-2 text-blue-800 font-medium" for="title">Title:</label>
+        <input type="text" name="title" id="title" required 
+               class="w-full mb-4 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        
+        <label class="block mb-2 text-blue-800 font-medium" for="author">Author:</label>
+        <input type="text" name="author" id="author" 
+               class="w-full mb-4 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        
+        <label class="block mb-2 text-blue-800 font-medium" for="genre">Genre:</label>
+        <input type="text" name="genre" id="genre" 
+               class="w-full mb-6 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        
+        <button type="submit" 
+                class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Add Book</button>
+    </form>
+    
+    <a href="{{ url_for('index') }}" 
+       class="inline-block mt-6 text-blue-700 hover:underline">Back to Book List</a>
+</body>
+</html>

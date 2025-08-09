@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 p-6">
+    <h1 class="text-3xl font-bold mb-6 text-blue-900">Books Catalog</h1>
+
+    <!-- Add New Book button/link -->
+    <a href="{{ url_for('add_book') }}" 
+       class="inline-block mb-4 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+       Add New Book
+    </a>
+
+    <!-- Link to My Borrowings -->
+    <a href="{{ url_for('my_borrowings') }}" 
+       class="inline-block mb-4 ml-4 px-4 py-2 bg-indigo-700 text-white rounded hover:bg-indigo-800">
+       My Borrowings
+    </a>
+
+    <!-- Admin Dashboard link, only visible to admins -->
+    {% if session.get('user_role') == 'admin' %}
+    <a href="{{ url_for('admin_members') }}" 
+       class="inline-block mb-4 ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+       Admin Dashboard
+    </a>
+    {% endif %}
+
+    <!-- Search form -->
+    <form method="GET" action="{{ url_for('index') }}" class="mb-6">
+      <input type="text" name="query" placeholder="Search books..." 
+             class="border rounded px-3 py-2 w-64" value="{{ request.args.get('query', '') }}">
+      <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded ml-3 hover:bg-blue-800">Search</button>
+    </form>
+
+    <table class="table-auto w-full bg-white shadow rounded">
+        <thead>
+            <tr>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">ID</th>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">Title</th>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">Author</th>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">Genre</th>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">Available</th>
+                <th class="px-5 py-3 text-left text-blue-900 font-semibold">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr class="hover:bg-blue-100">
+                <td class="border px-5 py-3">{{ book.book_id }}</td>
+                <td class="border px-5 py-3">{{ book.title }}</td>
+                <td class="border px-5 py-3">{{ book.author }}</td>
+                <td class="border px-5 py-3">{{ book.genre }}</td>
+                <td class="border px-5 py-3">{{ 'Yes' if book.available else 'No' }}</td>
+                <td class="border px-5 py-3 space-x-2">
+                    <a href="{{ url_for('edit_book', book_id=book.book_id) }}" class="text-blue-700 hover:underline">Edit</a> |
+                    <form action="{{ url_for('delete_book', book_id=book.book_id) }}" method="POST" class="inline">
+                        <button type="submit" onclick="return confirm('Are you sure?')" class="text-red-600 hover:underline bg-none border-none cursor-pointer">Delete</button>
+                    </form> |
+                    {% if book.available %}
+                    <form action="{{ url_for('borrow_book', book_id=book.book_id) }}" method="POST" class="inline">
+                        <button type="submit" class="text-green-700 hover:underline bg-none border-none cursor-pointer">Borrow</button>
+                    </form>
+                    {% else %}
+                    <span class="text-gray-500">Unavailable</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

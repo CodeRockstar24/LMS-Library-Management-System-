@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Borrowings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 p-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-blue-900">My Borrowings</h1>
+        <a href="{{ url_for('index') }}" 
+           class="inline-block mb-6 px-5 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition">
+           &larr; Back to Catalog
+        </a>
+
+        <div class="overflow-x-auto bg-white rounded shadow">
+            <table class="table-auto w-full">
+                <thead class="bg-blue-200 text-blue-900">
+                    <tr>
+                        <th class="px-6 py-3 text-left font-semibold">Title</th>
+                        <th class="px-6 py-3 text-left font-semibold">Borrow Date</th>
+                        <th class="px-6 py-3 text-left font-semibold">Return Date</th>
+                        <th class="px-6 py-3 text-left font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for br in borrowings %}
+                    <tr class="border-b hover:bg-blue-100 transition">
+                        <td class="px-6 py-3">{{ br.title }}</td>
+                        <td class="px-6 py-3">{{ br.borrow_date }}</td>
+                        <td class="px-6 py-3">
+                            {{ br.return_date if br.return_date else 'Not returned' }}
+                        </td>
+                        <td class="px-6 py-3">
+                            {% if not br.return_date %}
+                            <form action="{{ url_for('return_book', record_id=br.record_id) }}" method="POST" class="inline">
+                                <button type="submit" 
+                                    class="text-red-600 hover:underline bg-none border-none cursor-pointer font-semibold">
+                                    Return
+                                </button>
+                            </form>
+                            {% else %}
+                            <span class="text-gray-500 font-medium">Returned</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center p-6 text-gray-500 italic">
+                            You have no borrowing records.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

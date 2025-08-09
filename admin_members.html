@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Members Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-blue-50">
+  <h1 class="text-3xl font-bold mb-6 text-blue-900">Members Management</h1>
+  <a href="{{ url_for('index') }}" class="text-blue-700 hover:underline mb-6 inline-block font-semibold">← Back to Home</a>
+
+  {% for member in members %}
+    <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold text-blue-800 mb-2">{{ member.name }} <span class="text-sm text-gray-500 font-normal">({{ member.role }})</span></h2>
+      <p class="mb-1"><strong>Email:</strong> {{ member.email }}</p>
+      <p class="mb-4"><strong>Joined:</strong> {{ member.join_date }}</p>
+
+      <h3 class="mt-4 mb-2 font-semibold text-blue-700 border-b border-blue-300 pb-1">Borrow History</h3>
+      {% if member.borrow_history %}
+      <table class="table-auto w-full bg-blue-100 rounded-md">
+        <thead>
+          <tr class="bg-blue-200">
+            <th class="px-4 py-2 text-left text-blue-900">Title</th>
+            <th class="px-4 py-2 text-left text-blue-900">Borrow Date</th>
+            <th class="px-4 py-2 text-left text-blue-900">Return Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in member.borrow_history %}
+          <tr class="odd:bg-blue-50 even:bg-blue-100">
+            <td class="border px-4 py-2">{{ record.title }}</td>
+            <td class="border px-4 py-2">{{ record.borrow_date }}</td>
+            <td class="border px-4 py-2">{{ record.return_date if record.return_date else 'Not returned' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-500 italic mt-2">No borrow history.</p>
+      {% endif %}
+    </div>
+  {% else %}
+    <p class="text-gray-600 italic">No members found.</p>
+  {% endfor %}
+</body>
+</html>
+                <a href="{{ url_for('borrow_book', book_id=book.book_id) }}" class="text-green-600 hover:underline">Borrow</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="mt-6">
+        {% if books.has_prev %}
+        <a href="{{ url_for('index', page=books.prev_num, query=request.args.get('query', '')) }}" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Previous</a>
+        {% endif %}
+        {% if books.has_next %}
+        <a href="{{ url_for('index', page=books.next_num, query=request.args.get('query', '')) }}" class="ml-2 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
