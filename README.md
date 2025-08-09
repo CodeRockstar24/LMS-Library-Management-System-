@@ -1,5 +1,6 @@
 # LMS-Library-Management-System-
 A Flask-based Library Management System with user authentication, role-based access (admin &amp; student), book catalog, borrowing/return tracking, fine calculation, and responsive UI. Designed with HTML/CSS for a clean UI look, and MySQL backend for data storage. 
+
            **************Login page**************
 
 <img width="877" height="564" alt="Screenshot 2025-08-09 182502" src="https://github.com/user-attachments/assets/b7f24fc5-7bfc-47f4-ac7a-f0ca3fbed309" /> 
