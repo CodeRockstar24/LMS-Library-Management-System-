@@ -13,6 +13,7 @@ A Flask-based Library Management System with user authentication, role-based acc
 <img width="1040" height="250" alt="Screenshot 2025-08-09 182650" src="https://github.com/user-attachments/assets/8456528d-1c19-4b7d-9eb2-77588b53eeea" /> 
 
 ************Add Book************
+
 <img width="250" height="245" alt="image" src="https://github.com/user-attachments/assets/37bdd455-930e-4e70-9670-306fa65daacf" />
 
 
